@@ -1,0 +1,16 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="xx_seekbar_height">350dip</dimen>
+    <dimen name="xx_seekbar_right_margin">15dp</dimen>
+    <dimen name="xx_title_margin_bottom">60dp</dimen>
+    <dimen name="xx_bottom_top_margin">-45dp</dimen>
+    <dimen name="xx_popup_height">275dp</dimen>
+    <dimen name="xx_popup_width">225dp</dimen>
+    <dimen name="seek_width">200dp</dimen>
+    <dimen name="xx_check_margin">30dp</dimen>
+    <dimen name="xx_banner_side">10dp</dimen>
+    <dimen name="xx_banner_bottom">10dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+</resources>

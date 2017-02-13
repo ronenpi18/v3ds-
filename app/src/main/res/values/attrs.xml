@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="VerticalSeekBar">
+        <attr name="seekBarRotation">
+            <!-- Clock wise - 90 deg; top = min, bottom = max -->
+            <enum name="CW90" value="90" />
+            <!-- Clock wise - 270 deg; bottom = min, top = max -->
+            <enum name="CW270" value="270" />
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="Pulsator4Droid">
+        <attr name="pulse_count" format="integer"/>
+        <attr name="pulse_duration" format="integer"/>
+        <attr name="pulse_color" format="color"/>
+        <attr name="pulse_repeat" format="integer"/>
+        <attr name="pulse_maxScale" format="float"/>
+        <attr name="pulse_startFromScratch" format="boolean"/>
+        <attr name="pulse_interpolator" format="enum">
+            <enum name="Linear" value="0"/>
+            <enum name="Accelerate" value="1"/>
+            <enum name="Decelerate" value="2"/>
+            <enum name="AccelerateDecelerate" value="3"/>
+        </attr>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,47 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+    </style>
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat">
+      <item name="android:windowNoTitle">true</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:color">#ffffff</item>
+
+        <item name="colorPrimary">@color/primary_color_base</item>
+        <item name="colorPrimaryDark">@color/primary_dark_color_base</item>
+        <item name="colorAccent">@color/accent_color_base</item>
+
+        <item name="alertDialogTheme">@style/alertDialog</item>
+        <item name="buttonStyle">@style/ButtonAppTheme</item>
+        <item name="android:buttonStyle">@style/ButtonAppTheme</item>
+
+
+    </style>
+
+    <style name="alertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/primary_color_base</item>
+        <item name="colorAccent">@color/accent_color_base</item>
+        <item name="android:textColor">#f11e50</item>
+        <item name="android:dialogMessage">press something</item>
+        <item name="android:titleTextColor">#f11e50</item>
+        
+
+    </style>
+
+    <style name="ListView" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/primary_color_base</item>
+        <item name="colorAccent">@color/accent_color_base</item>
+    </style>
+
+    <style name="ButtonAppTheme" parent="Widget.AppCompat.ButtonBar">
+        <item name="android:background">@drawable/apptheme_btn_default_holo_dark</item>
+        <item name="colorAccent">@color/accent_color_base</item>
+        <item name="android:minHeight">48dip</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minWidth">64dip</item>
+    </style>
+
+</resources>

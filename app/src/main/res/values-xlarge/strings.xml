@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Virtual 3D Sound</string>
+    <string name="action_settings">Settings</string>
+    <string name="admob_interstitial_id">ad</string>
+    <string name="admob_tracking_id">enter your tracking id here</string>
+    <string name="title_activity_demo">Demo</string>
+    <string name="image_description_android_phone">Android Phone Image</string>
+    <string name="label_count">Count</string>
+    <string name="label_duration">Duration</string>
+    <string name="stop_searching_anim">stop</string>
+    <string name="start_searching_anim">start</string>
+    <string name="title_activity_activity_pay">ActivityPay</string>
+    <string name="hello_world">Hello.</string>
+    <string name="upgrade_to_premium">upgrade NOW</string>
+    <string name="you_have_premium_status">yay</string>
+</resources>

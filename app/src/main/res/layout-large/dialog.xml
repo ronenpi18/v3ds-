@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center"
+    android:id="@+id/relativeLayout_dialog"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    style="@style/ListView"
+    >
+
+
+        <ListView
+        android:layout_width="@dimen/xx_popup_width"
+        android:layout_height="@dimen/xx_popup_height"
+        android:id="@+id/listView_present"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:dividerHeight="1dp"
+            android:background="@color/primary_color_base"
+            android:divider="@android:drawable/screen_background_dark_transparent"
+            android:smoothScrollbar="false">
+
+        </ListView>
+
+
+</RelativeLayout>

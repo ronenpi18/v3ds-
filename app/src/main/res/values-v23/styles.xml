@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="alertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/primary_color_base</item>
+        <item name="colorAccent">@color/accent_color_base</item>
+        <item name="android:textColor">#f11e50</item>
+        <item name="android:titleTextColor">#f11e50</item>
+
+    </style>
+</resources>
