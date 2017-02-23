@@ -7,8 +7,8 @@ android {
         applicationId 'com.music.android.equalizerfx'
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 11
-        versionName '1.53.1.12'
+        versionCode 12
+        versionName '1.54.2.12'
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

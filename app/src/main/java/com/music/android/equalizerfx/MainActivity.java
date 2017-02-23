@@ -31,6 +31,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -68,6 +69,7 @@ import es.claucookie.miniequalizerlibrary.EqualizerView;
 
 import static com.music.android.equalizerfx.R.id.alertTitle;
 import static com.music.android.equalizerfx.R.id.textView;
+import static com.music.android.equalizerfx.R.layout.exit_dialog;
 
 
 /**
@@ -75,6 +77,8 @@ import static com.music.android.equalizerfx.R.id.textView;
  */
 public class MainActivity extends AppCompatActivity {
 
+    public static final String PREFS_NAME = "MyPrefsFile1";
+    public CheckBox dontShowAgain;
     private AudioManager audioManager;
     private static InterstitialAd interstitial;
     private static final Equalizer mEQ = new Equalizer(0, 0);
@@ -134,8 +138,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initCustomActionBar();
         initViews();
-        EqualizerView equalizer = (EqualizerView) findViewById(R.id.equalizer_view);
-        equalizer.animateBars(); // Whenever you want to tart the animation
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EqualizerView equalizer = (EqualizerView) findViewById(R.id.equalizer_view);
+                equalizer.animateBars(); // Whenever you want to tart the animation
+            }
+        });
         // equalizer.stopBars(); // When you want equalizer stops animating
         //  initGetPro();
 //        initShare();
@@ -543,15 +552,15 @@ public class MainActivity extends AppCompatActivity {
         interstitial = new InterstitialAd(this);
         interstitial.setAdUnitId(getResources().getString(R.string.admob_interstitial_id));
         requestNewInterstitial();
-//        interstitial.setAdListener(new AdListener() {
-//            @Override
-//            public void onAdClosed() {
-//                //super.onAdClosed();
-//                if (isExit) {
-//                    finishActivity();
-//                } else requestNewInterstitial();
-//            }
-//        });
+        interstitial.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                //super.onAdClosed();
+                if (isExit) {
+                    finishActivity();
+                } else requestNewInterstitial();
+            }
+        });
     }
 
     private int mAdCount = 1;
@@ -935,39 +944,73 @@ public class MainActivity extends AppCompatActivity {
 
     public void showDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        LayoutInflater adbInflater = LayoutInflater.from(this);
+        View eulaLayout = adbInflater.inflate(exit_dialog, null);
+
+        adb.setView(eulaLayout);
+        adb.setTitle("Please select action");
+        adb.setMessage("Press run to continue on background or close to terminate.");
+      //  ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(20F);
+      //  ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(20F);
         //alertDialog.setIcon(R.drawable.ic_notif);
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        adb.create();
+        adb.setPositiveButton("RUN", new DialogInterface.OnClickListener() {
             @Override
-            public void onShow(DialogInterface dialog) {
-                ((AlertDialog) dialog).setTitle("Please select action\nPress run to \ncontinue the virtual 3D\n sound on the background :)\"");
-                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(20F);
-                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(20F);
+            public void onClick(DialogInterface dialogInterface, int i) {
+                moveTaskToBack(true);
             }
         });
+        adb.setNegativeButton("CLOSE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                clearNotification();
+                //moveTaskToBack(true);
+                isExit = true;
+                finishActivity();
+//                android.os.Process.killProcess(android.os.Process.myPid());
 
-        class alertDialogOnClickListener implements DialogInterface.OnClickListener {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE: {
-                        moveTaskToBack(true);
-                        break;
-                    }
-                    case DialogInterface.BUTTON_NEGATIVE: {
-                        clearNotification();
-                        //android.os.Process.killProcess(android.os.Process.myPid());
-                        //moveTaskToBack(true);
-                        isExit = true;
-                        //showAds();
-                        break;
-                    }
-                }
+
+
             }
-        }
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Run", new alertDialogOnClickListener());
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Close", new alertDialogOnClickListener());
-        alertDialog.show();
+        });
+        adb.show();
     }
 
+//
+//        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialog) {
+//                ((AlertDialog) dialog).setTitle("Please select action");
+//                ((AlertDialog) dialog).setMessage("Press run to continue on background or close to terminate.");
+//                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setTextSize(20F);
+//                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE).setTextSize(20F);
+//            }
+//        });
+//
+//        class alertDialogOnClickListener implements DialogInterface.OnClickListener {
+//            public void onClick(DialogInterface dialog, int which) {
+//                switch (which) {
+//                    case DialogInterface.BUTTON_POSITIVE: {
+//                        moveTaskToBack(true);
+//                        break;
+//                    }
+//                    case DialogInterface.BUTTON_NEGATIVE: {
+//                        clearNotification();
+//                        //android.os.Process.killProcess(android.os.Process.myPid());
+//                        //moveTaskToBack(true);
+//                        isExit = true;
+//                        //showAds();
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Run", new alertDialogOnClickListener());
+//        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Close", new alertDialogOnClickListener());
+//        alertDialog.show();
+    //}
 
     boolean condactor = false;
 
@@ -982,8 +1025,14 @@ public class MainActivity extends AppCompatActivity {
         condactor = !condactor;
         if (condactor) {
             //Toast.makeText(this, "Unpressed", Toast.LENGTH_SHORT).show();
-            searchingAnimView.stopAnimations();
-            createNotification("3D Sound is OFF");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    searchingAnimView.stopAnimations();
+                    createNotification("3D Sound is OFF");
+                }
+            });
+
             mEffects.disinit();
             editor.putBoolean("activated", false); // Storing boolean - true/false
             editor.commit();
@@ -996,14 +1045,19 @@ public class MainActivity extends AppCompatActivity {
                     //  (int) Math.floor( (float) volume - (float) ( mMaxVolume - mCurrentVolume) * (bassSeekbar.getProgress() / 100) * 3 / 5),
                     0);
         } else {
-            searchingAnimView.startAnimations();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    searchingAnimView.startAnimations();
+                    createNotification("3D Sound is ON");
+                }
+            });
             mEffects.init();
             editor.putBoolean("activated", true); // Storing boolean - true/false
             editor.commit();
 
             findViewById(R.id.relativeLayout).setBackgroundResource(R.drawable.gradclick);//VISUALLY SHOW THE NUMBER OF DAYS UNTIL IT EXPIRES
             //Toast.makeText(this, "Pressed", Toast.LENGTH_SHORT).show();
-            createNotification("3D Sound is ON");
             ((TextView) findViewById(R.id.status)).setText("3D Sound is ON");//VISUALLY SHOW THE NUMBER OF DAYS UNTIL IT EXPIRES
             // Toast.makeText(this, mEffects.getSeekbar_vol().getProgress(), Toast.LENGTH_SHORT).show();
             final int volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -1013,6 +1067,129 @@ public class MainActivity extends AppCompatActivity {
                     //  (int) Math.floor( (float) volume - (float) ( mMaxVolume - mCurrentVolume) * (bassSeekbar.getProgress() / 100) * 3 / 5),
                     0);
         }
+
+
+        final Context context = this;
+        //DIALOG
+
+//        Thread tr = new Thread();
+//        tr.setName("check");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                AlertDialog.Builder adb = new AlertDialog.Builder(context);
+                LayoutInflater adbInflater = LayoutInflater.from(context);
+                View eulaLayout = adbInflater.inflate(R.layout.chackbox, null);
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                String skipMessage = settings.getString("skipMessage", "NOT checked");
+
+                dontShowAgain = (CheckBox) eulaLayout.findViewById(R.id.skip);
+                adb.setView(eulaLayout);
+                adb.setTitle("Attention");
+                dontShowAgain.setText("Ok, please do not show again.");
+//                dontShowAgain.setTextColor(Integer.parseInt("#fff"));
+                adb.setMessage("FYI, The application runs on the background as it presented in your notification bar");
+                adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String checkBoxResult = "NOT checked";
+
+                        if (dontShowAgain.isChecked()) {
+                            checkBoxResult = "checked";
+                        }
+
+                        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                        SharedPreferences.Editor editor = settings.edit();
+
+                        editor.putString("skipMessage", checkBoxResult);
+                        editor.commit();
+
+                        // Do what you want to do on "OK" action
+
+                        return;
+                    }
+                });
+
+                adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String checkBoxResult = "NOT checked";
+
+                        if (dontShowAgain.isChecked()) {
+                            checkBoxResult = "checked";
+                        }
+
+                        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                        SharedPreferences.Editor editor = settings.edit();
+
+                        editor.putString("skipMessage", checkBoxResult);
+                        editor.commit();
+
+                        // Do what you want to do on "CANCEL" action
+
+                        return;
+                    }
+                });
+
+                if (!skipMessage.equals("checked")) {
+                    adb.show();
+                }
+
+            }
+        });
+       // tr.start();
+//        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+//        LayoutInflater adbInflater = LayoutInflater.from(this);
+//        View eulaLayout = adbInflater.inflate(R.layout.chackbox, null);
+//        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//        String skipMessage = settings.getString("skipMessage", "NOT checked");
+//
+//        dontShowAgain = (CheckBox) eulaLayout.findViewById(R.id.skip);
+//        adb.setView(eulaLayout);
+//        adb.setTitle("Attention");
+//        adb.setMessage("FYI, The application runs on the background as it presented in your notification bar");
+//        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                String checkBoxResult = "NOT checked";
+//
+//                if (dontShowAgain.isChecked()) {
+//                    checkBoxResult = "checked";
+//                }
+//
+//                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//                SharedPreferences.Editor editor = settings.edit();
+//
+//                editor.putString("skipMessage", checkBoxResult);
+//                editor.commit();
+//
+//                // Do what you want to do on "OK" action
+//
+//                return;
+//            }
+//        });
+//
+//        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                String checkBoxResult = "NOT checked";
+//
+//                if (dontShowAgain.isChecked()) {
+//                    checkBoxResult = "checked";
+//                }
+//
+//                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//                SharedPreferences.Editor editor = settings.edit();
+//
+//                editor.putString("skipMessage", checkBoxResult);
+//                editor.commit();
+//
+//                // Do what you want to do on "CANCEL" action
+//
+//                return;
+//            }
+//        });
+//
+//        if (!skipMessage.equals("checked")) {
+//            adb.show();
+//        }
     }
 
     public void onClickActivityPay(View v) {
@@ -1023,6 +1200,62 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onResume() {
+//        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+//        LayoutInflater adbInflater = LayoutInflater.from(this);
+//        View eulaLayout = adbInflater.inflate(R.layout.chackbox, null);
+//        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//        String skipMessage = settings.getString("skipMessage", "NOT checked");
+//
+//        dontShowAgain = (CheckBox) eulaLayout.findViewById(R.id.skip);
+//        adb.setView(eulaLayout);
+//        adb.setTitle("Attention");
+//        adb.setMessage("FYI, The application runs on the background as it presented in your notification bar");
+//        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                String checkBoxResult = "NOT checked";
+//
+//                if (dontShowAgain.isChecked()) {
+//                    checkBoxResult = "checked";
+//                }
+//
+//                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//                SharedPreferences.Editor editor = settings.edit();
+//
+//                editor.putString("skipMessage", checkBoxResult);
+//                editor.commit();
+//
+//                // Do what you want to do on "OK" action
+//
+//                return;
+//            }
+//        });
+//
+//        adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                String checkBoxResult = "NOT checked";
+//
+//                if (dontShowAgain.isChecked()) {
+//                    checkBoxResult = "checked";
+//                }
+//
+//                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//                SharedPreferences.Editor editor = settings.edit();
+//
+//                editor.putString("skipMessage", checkBoxResult);
+//                editor.commit();
+//
+//                // Do what you want to do on "CANCEL" action
+//
+//                return;
+//            }
+//        });
+//
+//        if (!skipMessage.equals("checked")) {
+//            adb.show();
+//        }
+        super.onResume();
+    }
 }
 

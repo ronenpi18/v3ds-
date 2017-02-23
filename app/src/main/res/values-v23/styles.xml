@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="alertDialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:background">@color/primary_color_base</item>
+    <style name="alertDialog1" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">#565655</item>
         <item name="colorAccent">@color/accent_color_base</item>
         <item name="android:textColor">#f11e50</item>
+        <!--<item name="android:dialogMessage"></item>-->
         <item name="android:titleTextColor">#f11e50</item>
+
+    </style>
+
+    <style name="alertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">#2f4f4f</item>
+        <item name="colorAccent">@color/accent_color_base</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:titleTextColor">#f9f7f7</item>
 
     </style>
 </resources>
